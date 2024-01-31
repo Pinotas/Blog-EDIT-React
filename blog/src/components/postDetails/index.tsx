@@ -1,24 +1,34 @@
-import { Card, CardBody, CardSubtitle, CardText, CardTitle } from "reactstrap";
+import { Card, CardBody, CardText, CardTitle, Col, Row } from "reactstrap";
 
-interface CardDets {
+interface PostDetailsProps {
   imgUrl: string;
   title: string;
   description: string;
-  createdAt: string;
 }
 
-export function CardPage({ imgUrl, title, description, createdAt }: CardDets) {
+export function PostDetails({ imgUrl, title, description }: PostDetailsProps) {
   return (
     <Card
       style={{
-        width: "18rem",
+        backgroundColor: "black",
+        color: "white",
+        borderRadius: "10px",
       }}
     >
-      <img alt="Sample" src={imgUrl} style={{ borderRadius: "10px" }} />
       <CardBody>
-        <CardTitle tag="h5">{title}</CardTitle>
-        <CardText>{description}</CardText>
-        <CardSubtitle>{createdAt}</CardSubtitle>
+        <Row>
+          <Col>
+            <img
+              alt="Sample"
+              src={imgUrl}
+              style={{ borderRadius: "10px", height: "rem" }}
+            />
+          </Col>
+          <Col>
+            <CardTitle tag="h5">{title}</CardTitle>
+            <CardText>{description}</CardText>
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   );

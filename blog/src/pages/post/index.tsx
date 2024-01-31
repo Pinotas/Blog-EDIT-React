@@ -1,41 +1,40 @@
-import { CardPage } from "../../components/postDetails";
-import { NavBarF } from "../../components/navBar";
-import { Col, Container, Row } from "reactstrap";
-
-const cardDets = [
-  {
-    id: "1291dec2-7836-41d2-a80c-37bea30316ba",
-    title: "Meu primeiro post",
-    imageUrl: "https://picsum.photos/200/300",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    createdAt: "2023-01-21T00:00:00.000Z",
-  },
-];
+import { Container } from "reactstrap";
+import { PostDetails } from "../../components/postDetails";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+interface PostProps {
+  id: string;
+  title: string;
+  imageUrl: string;
+  description: string;
+  createdAt: Date;
+}
 
 function PostPage() {
+  const [post, setPost] = useState<PostProps | undefined>();
+  const { id } = useParams();
+
+  useEffect(() => {
+    fetch("/posts.json")
+      .then((resp) => resp.json())
+      .then((resp: PostProps[]) => {
+        const currentPost = resp.find((item) => item.id === id);
+        setPost(currentPost);
+      });
+  }, [id]);
+
+  if (!post) {
+    return <div>Post não existe</div>;
+  }
+
   return (
-    <div>
-      <div>
-        <NavBarF></NavBarF>
-      </div>
-      <div>
-        <Container>
-          <Row xs="4">
-            {cardDets.map((card) => (
-              <Col className="bg-light border" key={card.id}>
-                <CardPage
-                  imgUrl={card.imageUrl}
-                  title={card.title}
-                  description={card.description}
-                  createdAt={card.createdAt}
-                />
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </div>
-    </div>
+    <Container>
+      <PostDetails
+        imgUrl={post.imageUrl}
+        title={post.title}
+        description={post.description}
+      />
+    </Container>
   );
 }
 export default PostPage;

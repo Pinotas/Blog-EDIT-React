@@ -1,15 +1,25 @@
+import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar, NavbarBrand } from "reactstrap";
 
-export function NavBarF() {
+export default function NavBarComponent({ children }: { children: ReactNode }) {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <Navbar style={{ backgroundColor: "black" }}>
-        <NavbarBrand style={{ color: "white" }} href="/">
-          Edit Blog
+      <Navbar
+        className="mb-4"
+        style={{ backgroundColor: "black", color: "white" }}
+        dark
+      >
+        <NavbarBrand
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        >
+          Blog EDIT
         </NavbarBrand>
       </Navbar>
+      {children}
     </div>
   );
 }
-
-export default NavBarF;
